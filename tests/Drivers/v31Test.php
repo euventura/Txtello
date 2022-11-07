@@ -6,7 +6,7 @@ namespace Tests\Drivers;
 use PHPUnit\Framework\TestCase;
 use Uello\Txtello\Drivers\v31;
 
-class AfdReaderTest extends TestCase
+class V31Test extends TestCase
 {
    
 
