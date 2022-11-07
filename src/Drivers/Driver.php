@@ -12,6 +12,7 @@ abstract class Driver implements DriverInterface
     var $newEntityHeader = false;
     var $reader;
     var $data = [];
+    var $textData;
     var $itemIndex = 0;
 
     public function __construct($modification = false)
@@ -31,8 +32,9 @@ abstract class Driver implements DriverInterface
          }
     }
 
-    public function read($file) : array
+    public function read($file) : self
     {
+        $this->textData = $file;
         $linesArray = explode("\r\n", $file);
 
         foreach ($linesArray as $lineContent) 
@@ -41,7 +43,17 @@ abstract class Driver implements DriverInterface
             $line->setText($lineContent);
             $this->addItem($line->getData()); // $line->getData() isso aqui deve retorna a linha em array
         }
+        return $this;
+    }
 
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    public function getText()
+    {
+        return $this->textData;
     }
 
     protected function addItem($data)
@@ -59,9 +71,9 @@ abstract class Driver implements DriverInterface
         return substr($line, 0, 3);
     }
 
-    public function write()
+    public function write() : self
     {
-
+        return $this;
     }
     
 }

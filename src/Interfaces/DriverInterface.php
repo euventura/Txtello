@@ -5,7 +5,7 @@ namespace Uello\Txtello\Interfaces;
 interface DriverInterface
 {
 
-    public function read($data) : array;
-    public function write();
+    public function read($data) : self;
+    public function write(): self;
 
 }
