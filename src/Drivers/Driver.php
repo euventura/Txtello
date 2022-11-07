@@ -41,6 +41,7 @@ abstract class Driver implements DriverInterface
         {
             $line = new Line($this->config[$this->getHeader($lineContent)]);
             $line->setText($lineContent);
+            
             $this->addItem($line->getData()); // $line->getData() isso aqui deve retorna a linha em array
         }
         return $this;
@@ -71,7 +72,7 @@ abstract class Driver implements DriverInterface
         return substr($line, 0, 3);
     }
 
-    public function write() : self
+    public function write($data) : self
     {
         return $this;
     }

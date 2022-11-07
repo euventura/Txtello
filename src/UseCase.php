@@ -10,7 +10,7 @@ class test
     {
         $parser = new Txtello('v31');
         $data = $parser->read("");
-        return $data;
+        return $data->getData();
     }
 
 }
