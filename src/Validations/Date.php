@@ -7,7 +7,7 @@ use Uello\Txtello\Interfaces\ValidationInterface;
 class Date extends Validation
 {
 
-    public function validate() : bool
+    public function validate($value) : bool
     {
         return false;
     }

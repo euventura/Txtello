@@ -7,8 +7,8 @@ use Uello\Txtello\Interfaces\ValidationInterface;
 class Numeric extends Validation
 {
 
-    public function validate() : bool
+    public function validate($value) : bool
     {
-        return is_numeric($this->value);
+        return is_numeric($value) || empty($value);
     }
 }

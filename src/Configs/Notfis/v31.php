@@ -7,6 +7,11 @@ return [
             'name' => 'identifier',
             'format' => 'Mandatory|DateTime:dd/mm/yyyy'
         ],
+        [
+            'size' => 5,
+            'name' => 'identifier',
+            'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+        ]
     ],
 
     '313' => [

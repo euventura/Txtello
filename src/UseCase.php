@@ -8,8 +8,10 @@ class test
 
     public function __construct()
     {
-        $parser = new Txtello('v31');
+        $parser = new Txtello('notifis-v31');
         $data = $parser->read("");
+        $data = $parser->write([]);
+        $data->getText();
         return $data->getData();
     }
 

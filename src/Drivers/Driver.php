@@ -8,42 +8,44 @@ use Uello\Txtello\Objects\Line;
 abstract class Driver implements DriverInterface
 {
 
-    var $config = '';
-    var $newEntityHeader = false;
-    var $reader;
-    var $data = [];
-    var $textData;
-    var $itemIndex = 0;
+    private $configFile;
+    private $config;
+    private $configFolder = './src/Configs/';
+    private $data = [];
+    private $textData;
+    private $multipleTag = [];
 
     public function __construct($modification = false)
     {
-        $this->loadConfig($modification);
+        $this->loadConfig();
     }
 
-    protected function loadConfig($modification)
+    public function setModification(array $modificationArray)
     {
-         if (!is_array($this->config)) {
-             $this->config = []; // carregar da pasta config, se tiver modificação
-             // a ideia é usar o esquema de HERANÇA, ou seja, você primeiro da um load no V31
-             // Ai você da um load no modification
-             // Varre o modification e subistitui os indices, fazendo uma mescla dos 2, onde o 
-             // v31 é a base, e a modificação altera a base
-             // $this->config = loadfile($this->config.$modification.'.php');
-         }
+        foreach($modificationArray as $header => $modificationLine)
+        {
+            $this->config[$header] = $modificationLine;
+        }
+    }
+
+    public function loadConfig()
+    {
+        $this->config = include $this->configFolder . $this->configFile;
     }
 
     public function read($file) : self
     {
         $this->textData = $file;
+        $this->index = 0;
         $linesArray = explode("\r\n", $file);
 
         foreach ($linesArray as $lineContent) 
         {
             $line = new Line($this->config[$this->getHeader($lineContent)]);
             $line->setText($lineContent);
-            
-            $this->addItem($line->getData()); // $line->getData() isso aqui deve retorna a linha em array
+            $this->addItem($line->getData());
         }
+        $this->multipleTag = [];
         return $this;
     }
 
@@ -59,12 +61,30 @@ abstract class Driver implements DriverInterface
 
     protected function addItem($data)
     {
-        if ($this->newEntityHeader == $data['header'])
-        {
-            $this->index++;
-        }
-        $this->data['itens'][$this->index] = (array_merge($this->data['itens'][$this->index], $data));
+        $headerIndex = $data['header'];
 
+        /**
+         * A ideia aqui é a seguinte:
+         * o array externo ficará:
+         * [000] => array
+         * [313][0] => array
+         * [313][1]
+         * [313][2]
+         */
+        if (isset($this->data[$headerIndex])) {
+
+            if(in_array($this->data[$headerIndex], $this->multipleTag)){
+                $this->data[$headerIndex][] = $this->data[$headerIndex];
+                return;
+            }
+
+            $this->data[$headerIndex] = [$this->data[$headerIndex]];
+            $this->multipleTag[] = $headerIndex;
+            return;
+        }
+
+
+        $this->data[$headerIndex] = $data;
     }
 
     public function getHeader($line)
@@ -74,6 +94,16 @@ abstract class Driver implements DriverInterface
 
     public function write($data) : self
     {
+        $this->textData = '';
+        
+        foreach ($data as $arrayIndex => $lineData) 
+        {
+            $header = explode('.', $arrayIndex)[0];
+            $line = new Line($this->config[$header]);
+            $line->setData($lineData);
+            $this->textData .= $line->getText();
+        }
+
         return $this;
     }
     

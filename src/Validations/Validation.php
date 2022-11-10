@@ -4,20 +4,21 @@ namespace Uello\Txtello\Validations;
 
 use Uello\Txtello\Interfaces\ValidationInterface;
 
-class Validation implements ValidationInterface
+abstract class Validation implements ValidationInterface
 {
 
-    protected $value;
-    protected $extraFormat;
-    protected $errors;
 
-    public function __construct($value, $extraFormat = null)
+    protected $extraFormat;
+    protected $error;
+    protected $padChar;
+    protected $padDirection;
+
+    public function __construct($extraFormat = null)
     {
-        $this->value = $value;
         $this->extraFormat = $extraFormat;
     }
 
-    public function validate() : bool
+    public function validate($value) : bool
     {
         return true;
     }
@@ -25,6 +26,11 @@ class Validation implements ValidationInterface
     public function getError() : array
     {
         return [];
+    }
+
+    public function fill($value, $size) : String
+    {
+        return str_pad($value, $size, $this->padChar, $this->padDirection);
     }
 
 }

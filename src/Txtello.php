@@ -7,13 +7,15 @@ use Uello\Txtello\Drivers\v31;
 class Txtello
 {
     private $driver;
-    private $stopOnError;
+    /**
+     * Padrão de Druver será:
+     * natureza-driver
+     */
 
-    public function __construct($driver, $modifer, $stopOnError = false)
+    public function __construct($driver, $modifer = false)
     {
         // separar Notifis, de ocorren, de conemb.
         $this->driver = $this->buildDriver($driver, $modifer);
-        $this->stopOnError = $stopOnError;
     }
 
     public function read($data)
@@ -26,11 +28,12 @@ class Txtello
         
     }
 
-    private function buildDriver($driver, $modifer)
+    private function buildDriver($driver, $modifier)
     {
-        // Transformar o texto no driver correto.
-        // aqui falta um parametro, o modificador.
-        // v31, e preciso saber qual dos v31..
+        $config = include './Configs/Drivers.php';
+        $infos = explode($driver, '-');
+        $driver = $config[$infos[0]][$infos[1]];
+        $driver->setModifier($modifier);
         return $driver;
     }
 

@@ -2,8 +2,6 @@
 
 namespace Uello\Txtello\Objects;
 
-use Uello\Txtello\Interfaces\DriverInterface;
-
 class Line 
 {
     private $config;
@@ -37,8 +35,18 @@ class Line
     public function setText($textData): self
     {
         $this->textData = $textData;
-        // @TODO: make data. Aqui voce tem o $this->config e o $textData. Precisa transformar para Array
+        $this->transformTextInData();
         return $this;
+    }
+
+    private function transformTextInData()
+    {
+        $pointer = 0;
+        $this->data[] = 0;
+        foreach ($this->config as $position => $map) {
+            $this->data[$map['name']] = trim(substr($this->textData, $position + $pointer, $map['size']));
+            $pointer += $map['size'];
+        }
     }
 
     /**
@@ -55,7 +63,32 @@ class Line
     public function setData($data): self
     {
         $this->data = $data;
-        // @TODO: make data. Aqui voce tem o $this->config e o $data. Precisa transformar para linha
+        $this->transformDataInText();
+
         return $this;
+    }
+
+    private function transformDataInText()
+    {
+        $this->text = '';
+        foreach ($this->config as $position => $map) {
+            $validations = explode('|', $map['validation']);
+            $value = $this->data[$map['name']];
+            foreach ($validations as $index => $validation) {
+                $infos = explode(':', $validation);
+                $infos[1] = $infos[1] ?? false;
+                $validator = new $infos[0]($infos[1]);
+                if (!$validator->validate($value))
+                {
+                    $this->errors[] = $validator->getError();
+                }
+
+                if ($index == 0) {
+                    $this->text .= $validator->fill($value, $map['size']);
+                }
+
+            }
+        }
+        
     }
 }
