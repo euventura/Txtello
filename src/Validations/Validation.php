@@ -10,8 +10,8 @@ abstract class Validation implements ValidationInterface
 
     protected $extraFormat;
     protected $error;
-    protected $padChar;
-    protected $padDirection;
+    protected $padChar = ' ';
+    protected $padDirection = STR_PAD_RIGHT;
 
     public function __construct($extraFormat = null)
     {

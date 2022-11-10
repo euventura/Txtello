@@ -62,15 +62,6 @@ abstract class Driver implements DriverInterface
     protected function addItem($data)
     {
         $headerIndex = $data['header'];
-
-        /**
-         * A ideia aqui é a seguinte:
-         * o array externo ficará:
-         * [000] => array
-         * [313][0] => array
-         * [313][1]
-         * [313][2]
-         */
         if (isset($this->data[$headerIndex])) {
 
             if(in_array($this->data[$headerIndex], $this->multipleTag)){
@@ -82,7 +73,6 @@ abstract class Driver implements DriverInterface
             $this->multipleTag[] = $headerIndex;
             return;
         }
-
 
         $this->data[$headerIndex] = $data;
     }
