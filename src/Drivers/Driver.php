@@ -41,14 +41,15 @@ abstract class Driver implements DriverInterface
 
         foreach ($linesArray as $lineContent) 
         {
-            if (isset($this->config[$this->getHeader($lineContent)])) {
-                $line = new Line($this->config[$this->getHeader($lineContent)]);
+            if (!isset($this->config[$this->getHeader($lineContent)])) {
+                continue;
             }
-
+            
+            $line = new Line($this->config[$this->getHeader($lineContent)]);
             $line->setText($lineContent);
             $this->addItem($line->getData());
         }
-        
+
         $this->multipleTag = [];
         return $this;
     }
