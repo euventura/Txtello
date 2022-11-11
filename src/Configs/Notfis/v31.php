@@ -2,19 +2,27 @@
 
 return [
     '000' => [
-        'map' =>   [
-            'size' => 3,
-            'name' => 'identifier',
-            'format' => 'Mandatory|DateTime:dd/mm/yyyy'
-        ],
-        [
-            'size' => 5,
-            'name' => 'identifier',
-            'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+        'map' => [
+            1 => [
+                'size' => 3,
+                'name' => 'identifier',
+                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+            ],
+            2 => [
+                'size' => 10,
+                'name' => 'teste',
+                'format' => 'Mandatory'
+            ],
+            3 => [
+                'size' => 20,
+                'name' => 'teste2',
+                'format' => ''
+            ],
+            4 => [
+                'size' => 10,
+                'name' => 'teste3',
+                'format' => ''
+            ]
         ]
-    ],
-
-    '313' => [
-
     ]
 ];

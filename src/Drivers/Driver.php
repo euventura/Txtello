@@ -8,12 +8,12 @@ use Uello\Txtello\Objects\Line;
 abstract class Driver implements DriverInterface
 {
 
-    private $configFile;
-    private $config;
-    private $configFolder = './src/Configs/';
-    private $data = [];
-    private $textData;
-    private $multipleTag = [];
+    protected $configFile;
+    protected $config;
+    protected $configFolder = './src/Configs/';
+    protected $data = [];
+    protected $textData;
+    protected $multipleTag = [];
 
     public function __construct($modification = false)
     {
@@ -41,10 +41,14 @@ abstract class Driver implements DriverInterface
 
         foreach ($linesArray as $lineContent) 
         {
-            $line = new Line($this->config[$this->getHeader($lineContent)]);
+            if (isset($this->config[$this->getHeader($lineContent)])) {
+                $line = new Line($this->config[$this->getHeader($lineContent)]);
+            }
+
             $line->setText($lineContent);
             $this->addItem($line->getData());
         }
+        
         $this->multipleTag = [];
         return $this;
     }
@@ -61,7 +65,7 @@ abstract class Driver implements DriverInterface
 
     protected function addItem($data)
     {
-        $headerIndex = $data['header'];
+        $headerIndex = $data['identifier'];
         if (isset($this->data[$headerIndex])) {
 
             if(in_array($this->data[$headerIndex], $this->multipleTag)){
