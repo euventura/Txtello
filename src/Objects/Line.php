@@ -8,6 +8,7 @@ class Line
     private $text;
     private $data;
 
+    // @todo: precisa arrumar uma forma de deixar os erros disponiveis.
     public function __construct($config)
     {
         $this->config = $config;
@@ -41,6 +42,8 @@ class Line
 
     private function transformTextInData()
     {
+        //@todo: precisa adicionar a validação aqui também.
+        // o validador que precisa saber limpar o dado, assim como ele sabe  'sujar' o dado.
         $pointer = 0;
         $this->data[] = 0;
         foreach ($this->config['map'] as $position => $map) {

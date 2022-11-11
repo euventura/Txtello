@@ -7,14 +7,9 @@ use Uello\Txtello\Drivers\v31;
 class Txtello
 {
     private $driver;
-    /**
-     * Padrão de Druver será:
-     * natureza-driver
-     */
 
     public function __construct($driver, $modifer = false)
     {
-        // separar Notifis, de ocorren, de conemb.
         $this->driver = $this->buildDriver($driver, $modifer);
     }
 
@@ -23,9 +18,9 @@ class Txtello
         return $this->driver->read($data);
     }
     
-    public function write()
+    public function write($data)
     {
-        
+        return $this->driver->read($data);
     }
 
     private function buildDriver($driver, $modifier)

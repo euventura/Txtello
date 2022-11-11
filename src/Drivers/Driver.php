@@ -15,6 +15,8 @@ abstract class Driver implements DriverInterface
     protected $textData;
     protected $multipleTag = [];
 
+
+    //@todo: precisa arrumar uma forma do deixar os erros disponiveis.
     public function __construct($modification = false)
     {
         $this->loadConfig();
@@ -41,6 +43,7 @@ abstract class Driver implements DriverInterface
 
         foreach ($linesArray as $lineContent) 
         {
+            //@todo : Precisa colocar o validador;
             if (!isset($this->config[$this->getHeader($lineContent)])) {
                 continue;
             }

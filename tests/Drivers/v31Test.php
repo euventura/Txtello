@@ -9,6 +9,9 @@ use Uello\Txtello\Drivers\Notfis\v31;
 class V31Test extends TestCase
 {
    
+ // @todo: Criar todos os testes.
+ // teste que teste sucesso e falha.
+// algum teste que teste todas as validações de forma sucesso e falha
 
     public function testItShouldReadFileSuccess()
     {
