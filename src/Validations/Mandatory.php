@@ -9,6 +9,6 @@ class Mandatory extends Validation
 
     public function validate($value) : bool
     {
-        return !empty($value);
+        return $this->isValid = !empty($value);
     }
 }

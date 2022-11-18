@@ -7,11 +7,13 @@ class Line
     private $config;
     private $text;
     private $data;
+    private $errorBag;
 
     // @todo: precisa arrumar uma forma de deixar os erros disponiveis.
     public function __construct($config)
     {
         $this->config = $config;
+        $this->errorBag = new ErrorBag();
     }
 
     /**
@@ -83,7 +85,7 @@ class Line
                 $validator = new $infos[0]($infos[1]);
                 if (!$validator->validate($value))
                 {
-                    $this->errors[] = $validator->getError();
+                    $this->errorBag->addError($validator->getError(),$map['name']);
                 }
 
                 if ($index == 0) {
@@ -93,5 +95,10 @@ class Line
             }
         }
         
+    }
+
+    public function getErrors()
+    {
+        return $this->errorBag;
     }
 }

@@ -34,5 +34,4 @@ var_dump($result->getData());die;
 
         $this->assertEquals($expected, $result->getData());
     }
-
 }

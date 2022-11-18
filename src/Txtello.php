@@ -13,6 +13,7 @@ class Txtello
         $this->driver = $this->buildDriver($driver, $modifer);
     }
 
+    // @todo: configuirar todos os drivers, criando o map a partir de documentos.
     public function read($data)
     {
         return $this->driver->read($data);

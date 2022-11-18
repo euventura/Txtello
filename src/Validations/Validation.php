@@ -9,6 +9,7 @@ abstract class Validation implements ValidationInterface
 
 
     protected $extraFormat;
+    protected $isValid = true;
     protected $error;
     protected $padChar = ' ';
     protected $padDirection = STR_PAD_RIGHT;
@@ -20,12 +21,16 @@ abstract class Validation implements ValidationInterface
 
     public function validate($value) : bool
     {
-        return true;
+        return $this->isValid = true;
     }
 
-    public function getError() : array
+    public function getError() : string
     {
-        return [];
+        if (!$this->isValid) {
+            return "Invalid Type: " . get_class($this);
+        }
+
+        return '';
     }
 
     public function fill($value, $size) : String

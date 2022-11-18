@@ -8,16 +8,15 @@ use Uello\Txtello\Objects\Line;
 abstract class Driver implements DriverInterface
 {
 
-    protected $configFile;
     protected $config;
+    protected $configFile;
     protected $configFolder = './src/Configs/';
     protected $data = [];
     protected $textData;
     protected $multipleTag = [];
+    protected $errors = [];
 
-
-    //@todo: precisa arrumar uma forma do deixar os erros disponiveis.
-    public function __construct($modification = false)
+    public function __construct()
     {
         $this->loadConfig();
     }
@@ -41,15 +40,20 @@ abstract class Driver implements DriverInterface
         $this->index = 0;
         $linesArray = explode("\r\n", $file);
 
-        foreach ($linesArray as $lineContent) 
+        foreach ($linesArray as $positionLine => $lineContent) 
         {
-            //@todo : Precisa colocar o validador;
-            if (!isset($this->config[$this->getHeader($lineContent)])) {
+            $header = $this->getHeader($lineContent);
+
+            if (!isset($this->config[$header])) {
                 continue;
             }
             
             $line = new Line($this->config[$this->getHeader($lineContent)]);
             $line->setText($lineContent);
+
+            if (!empty($line->getErrors())) {
+                $this->errors[$positionLine] = $line->getErrors();
+            }
             $this->addItem($line->getData());
         }
 
