@@ -4,7 +4,7 @@ namespace Uello\Txtello\Validations;
 
 use Uello\Txtello\Interfaces\ValidationInterface;
 
-abstract class Validation implements ValidationInterface
+class Validation implements ValidationInterface
 {
 
 
@@ -36,6 +36,11 @@ abstract class Validation implements ValidationInterface
     public function fill($value, $size) : String
     {
         return str_pad($value, $size, $this->padChar, $this->padDirection);
+    }
+
+    public function clear($value) : String
+    {
+        return trim($value);
     }
 
 }
