@@ -7,15 +7,15 @@
     "authors": [
       {
         "name": "Victor Ventura",
-        "email": "euventura@gmail.com"
+        "email": "victor.ventura@uello.com.br"
       },
       {
-        "name": "Guilherme",
-        "email": "a@b.com"
+        "name": "Guilherme Mariano",
+        "email": "guilherme.mariano@uello.com.br"
       }
     ],
     "require": {
-      "php": "^8.0"
+      "php": "^7.0"
     },
     "require-dev": {
       "phpunit/phpunit": "^9.0",
