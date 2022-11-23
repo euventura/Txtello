@@ -1,0 +1,49 @@
+{
+    "name": "uello/txtello",
+    "license": "MIT",
+    "description": "Pacote para leitura de Arquivo TXT de tamanho padrao",
+    "keywords": ["php", "txt", "formato", "poadrao", "proceda"],
+    "homepage": "https://github.com/euventura/txtello",
+    "authors": [
+      {
+        "name": "Victor Ventura",
+        "email": "victor.ventura@uello.com.br"
+      },
+      {
+        "name": "Guilherme Mariano",
+        "email": "guilherme.mariano@uello.com.br"
+      }
+    ],
+    "require": {
+      "php": "^7.0"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^9.0",
+      "codacy/coverage": "dev-master",
+      "squizlabs/php_codesniffer": "^3.7",
+      "phpmd/phpmd": "^2.13",
+      "phpstan/phpstan": "^1.8"
+    },
+    "autoload": {
+      "psr-4": {
+        "Uello\\Txtello\\": "src/",
+        "Tests\\": "tests/"
+      }
+    },
+    "scripts": {
+      "test": [
+        "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text"
+      ],
+      "coverage": [
+        "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html ./coverage"
+      ],
+      "phpstan": "./vendor/bin/phpstan analyze",
+      "phpmd": "vendor/bin/phpmd src,tests ansi ruleset.xml",
+      "phpcs": "./vendor/bin/phpcs",
+      "static-analyse": [
+        "@composer phpcs",
+        "@composer phpstan",
+        "@composer phpmd"
+      ]
+    }
+  }
