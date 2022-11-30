@@ -10,7 +10,7 @@ abstract class Driver implements DriverInterface
 
     protected $config;
     protected $configFile;
-    protected $configFolder = './src/Configs/';
+    protected $configFolder = '/src/Configs/';
     protected $data = [];
     protected $textData;
     protected $multipleTag = [];
