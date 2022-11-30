@@ -73,7 +73,7 @@ return [
             ],
             3 => [
                 'size' => 15,
-                'name' => 'state_state_registration',
+                'name' => 'state_registration',
                 'format' => ''
             ],
             4 => [
