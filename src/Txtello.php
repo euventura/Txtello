@@ -26,10 +26,12 @@ class Txtello
 
     private function buildDriver($driver, $modifier)
     {
-        $config = include './Configs/Drivers.php';
-        $infos = explode($driver, '-');
+        $config = include dirname(__FILE__) . '/Configs/Drivers.php';
+        $infos = explode('-', $driver);
         $driver = $config[$infos[0]][$infos[1]];
-        $driver->setModifier($modifier);
+        if ($modifier) {
+            $driver->setModification($modifier);
+        }
         return $driver;
     }
 
