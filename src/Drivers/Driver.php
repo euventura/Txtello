@@ -10,7 +10,7 @@ abstract class Driver implements DriverInterface
 
     protected $config;
     protected $configFile;
-    protected $configFolder = './src/Configs/';
+    protected $configFolder = '/src/Configs/';
     protected $data = [];
     protected $textData;
     protected $multipleTag = [];
@@ -31,7 +31,7 @@ abstract class Driver implements DriverInterface
 
     public function loadConfig()
     {
-        $this->config = include $this->configFolder . $this->configFile;
+        $this->config = include (dirname(__FILE__, 3)) . $this->configFolder . $this->configFile;
     }
 
     public function read($file) : self

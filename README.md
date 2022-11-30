@@ -44,8 +44,43 @@ Lembrando que o configurador herdará as configurações da **notifis-v31** e su
 
 ### I/O de dados
 
-Como o Txtello lida com dados ?
+Como o  é o retorno dos dados do TXTELLO ?
 
+#### getData()
+
+```php
+[
+    ["000"]=> [
+        ["identifier"]=>  "000",
+        ["sender_identifier"]=> "Nome da Empresa1",
+        ["recipient_identifier"]=> "Nome da Empresa2",
+        ["date"]=> "13061988",
+        ["hour"]=> "OT15",
+        ["exchange_identifier"]=>"91108",
+    ],
+    [102]=> [
+        ["identifier"]=> "102",
+        ["document_identifier"]=> "220915111723",
+    ]
+]
+```
+
+#### getData() com registros de Headers iguais
+
+```php
+[
+    [103]=> [
+        [0] => [
+            ["identifier"]=> "103",
+            ["document_identifier"]=> "22222222287",
+        ]
+        [1] => [
+            ["identifier"]=> "103",
+            ["document_identifier"]=> "22222222288",
+        ]
+    ]
+]
+```
 
 ## Drivers configurados
 

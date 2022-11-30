@@ -19,7 +19,7 @@ class V31Test extends TestCase
 
         $v31 = new v31();
         $result = $v31->read($content);
-var_dump($result->getData());die;
+        print_r($result->getData());die;
         $expected = [
             'trailer' => [
                 'sequency' => '999999999',
