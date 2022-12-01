@@ -8,13 +8,38 @@ use Uello\Txtello\Objects\Line;
 abstract class Driver implements DriverInterface
 {
 
+    /**
+     * Readed Config File
+     */
     protected $config;
+    /**
+     * Relative Path File Config
+     */
     protected $configFile;
+
+    /**
+     * Relative Path File Config folder
+     */
     protected $configFolder = '/src/Configs/';
+
+    /**
+     * ArrayData
+     */
     protected $data = [];
+
+    /**
+     * TextData
+     */
     protected $textData;
+
+    /**
+     * Errors
+     */
     protected $errors = [];
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->loadConfig();

@@ -14,16 +14,32 @@ class Validation implements ValidationInterface
     protected $padChar = ' ';
     protected $padDirection = STR_PAD_RIGHT;
 
+    /**
+     * Undocumented function
+     *
+     * @param $extraFormat
+     */
     public function __construct($extraFormat = null)
     {
         $this->extraFormat = $extraFormat;
     }
 
+    /**
+     * Check if is Valid
+     *
+     * @param $value
+     * @return boolean
+     */
     public function validate($value) : bool
     {
         return $this->isValid = true;
     }
 
+    /**
+     * Return error
+     *
+     * @return string
+     */
     public function getError() : string
     {
         if (!$this->isValid) {
@@ -33,11 +49,24 @@ class Validation implements ValidationInterface
         return '';
     }
 
+    /**
+     * Complete with filler
+     *
+     * @param $value
+     * @param $size
+     * @return String
+     */
     public function fill($value, $size) : String
     {
         return str_pad($value, $size, $this->padChar, $this->padDirection);
     }
 
+    /**
+     * Remove Filler from DAta
+     *
+     * @param $value
+     * @return String
+     */
     public function clear($value) : String
     {
         return trim($value);

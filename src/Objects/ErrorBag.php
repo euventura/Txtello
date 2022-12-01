@@ -24,11 +24,11 @@ class ErrorBag
     /**
      * Add error to bag
      *
-     * @param [type] $error
-     * @param [type] $identifier
+     * @param Array $error
+     * @param String $identifier
      * @return void
      */
-    public function addError($error, $identifier = null)
+    public function addError(Array $error, String $identifier = null)
     {
         $this->errors[$identifier] = $error;
     }
