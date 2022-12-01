@@ -19,8 +19,6 @@ class V31Test extends TestCase
         $expected = json_decode(file_get_contents(__DIR__ .'/../files/Notifis-v31-expected.json'), true);
         $v31 = new v31();
         $result = $v31->read($content);
-
-        file_put_contents('test', json_encode($result->getData()));die;
         $this->assertEquals($expected, $result->getData());
     }
 }
