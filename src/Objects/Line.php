@@ -4,12 +4,39 @@ namespace Uello\Txtello\Objects;
 
 class Line 
 {
+    /**
+     * full config map
+     *
+     * @var Array
+     */
     private $config;
+
+    /**
+     * Text data
+     *
+     * @var String
+     */
     private $text;
+
+    /**
+     * Array data
+     *
+     * @var Array
+     */
     private $data;
+
+    /**
+     * ErrorBag
+     *
+     * @var [type]
+     */
     private $errorBag;
 
-    // @todo: precisa arrumar uma forma de deixar os erros disponiveis.
+    /**
+     * Construct
+     *
+     * @param Array $config
+     */
     public function __construct($config)
     {
         $this->config = $config;
@@ -42,10 +69,13 @@ class Line
         return $this;
     }
 
+    /**
+     * Trasnform TextData in ArrayData
+     *
+     * @return void
+     */
     private function transformTextInData()
     {
-        //@todo: precisa adicionar a validação aqui também.
-        // o validador que precisa saber limpar o dado, assim como ele sabe  'sujar' o dado.
         $pointer = 0;
         foreach ($this->config['map'] as $position => $map) {
             $this->data[$map['name']] = trim(substr($this->textData, ($position-1) + $pointer, $map['size']));
@@ -72,6 +102,11 @@ class Line
         return $this;
     }
 
+    /**
+     * Transform ArrayData in TextData
+     *
+     * @return void
+     */
     private function transformDataInText()
     {
         $this->text = '';
@@ -96,6 +131,11 @@ class Line
         
     }
 
+    /**
+     * return all errrors
+     *
+     * @return void
+     */
     public function getErrors()
     {
         return $this->errorBag;
