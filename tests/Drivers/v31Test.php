@@ -20,8 +20,7 @@ class V31Test extends TestCase
         $v31 = new v31();
         $result = $v31->read($content);
 
-        $txt = "<pre>".print_r($result->getData(), true)."</pre>";
-        file_put_contents('test', $txt);die;
+        file_put_contents('test', json_encode($result->getData()));die;
         $this->assertEquals($expected, $result->getData());
     }
 }
