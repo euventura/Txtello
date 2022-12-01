@@ -79,7 +79,7 @@ class Line
         $pointer = 0;
         foreach ($this->config['map'] as $position => $map) {
             $this->data[$map['name']] = trim(substr($this->textData, ($position-1) + $pointer, $map['size']));
-            $pointer += $map['size'];
+            $pointer += $map['size'] -1;
         }
     }
 

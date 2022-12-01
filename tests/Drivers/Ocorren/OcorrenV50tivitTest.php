@@ -15,8 +15,6 @@ class OcorrenV50tivitTest extends TestCase
         $expected = json_decode(file_get_contents($path.'/files/Ocorren/OcorrenV50tivitTest.json'), true);
         $v31 = new v50tivit();
         $result = $v31->read($content);
-        print_r($result->getData());die;
-        file_put_contents("teste2.txt", json_encode($content));die;
         $this->assertEquals($expected, $result->getData());
     }
 }

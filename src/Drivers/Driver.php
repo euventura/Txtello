@@ -80,7 +80,6 @@ abstract class Driver implements DriverInterface
         $this->textData = $fileContent;
         $this->index = 0;
         $linesArray = explode("\r\n", $fileContent);
-
         foreach ($linesArray as $positionLine => $lineContent) 
         {
             $header = $this->getHeader($lineContent);
@@ -95,10 +94,10 @@ abstract class Driver implements DriverInterface
             if (!empty($line->getErrors())) {
                 $this->errors[$positionLine] = $line->getErrors();
             }
+            
             $this->addItem($line->getData());
         }
 
-        $this->multipleTag = [];
         return $this;
     }
 
@@ -131,7 +130,7 @@ abstract class Driver implements DriverInterface
     protected function addItem(Array $data)
     {
         $headerIndex = $data['identifier'];
-
+    
         if (isset($this->data[$headerIndex])) {
 
             if (!isset($this->data[$headerIndex][0])) {
@@ -145,7 +144,6 @@ abstract class Driver implements DriverInterface
             $this->data[$headerIndex][] = $this->data[$headerIndex];
             return;
         }
-
         $this->data[$headerIndex] = $data;
     }
 
