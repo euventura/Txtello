@@ -16,22 +16,12 @@ class V31Test extends TestCase
     public function testItShouldReadFileSuccess()
     {
         $content = file_get_contents(__DIR__ .'/../files/Notfis-v31.txt');
-
+        $expected = json_decode(file_get_contents(__DIR__ .'/../files/Notifis-v31-expected.json'), true);
         $v31 = new v31();
         $result = $v31->read($content);
-        print_r($result->getData());die;
-        $expected = [
-            'trailer' => [
-                'sequency' => '999999999',
-                'numberType2' => 1,
-                'numberType3' => 2,
-                'numberType4' => 1,
-                'numberType5' => 1,
-                'type' => 9,
-            ],
-            'mark' => []
-        ];
 
+        $txt = "<pre>".print_r($result->getData(), true)."</pre>";
+        file_put_contents('test', $txt);die;
         $this->assertEquals($expected, $result->getData());
     }
 }

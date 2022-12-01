@@ -74,15 +74,18 @@ abstract class Driver implements DriverInterface
     protected function addItem($data)
     {
         $headerIndex = $data['identifier'];
+
         if (isset($this->data[$headerIndex])) {
 
-            if(in_array($this->data[$headerIndex], $this->multipleTag)){
-                $this->data[$headerIndex][] = $this->data[$headerIndex];
+            if (!isset($this->data[$headerIndex][0])) {
+                $first = $this->data[$headerIndex];
+                $this->data[$headerIndex] = [];
+                $this->data[$headerIndex][] = $first;
+                $this->data[$headerIndex][] = $data;
                 return;
             }
 
-            $this->data[$headerIndex] = [$this->data[$headerIndex]];
-            $this->multipleTag[] = $headerIndex;
+            $this->data[$headerIndex][] = $this->data[$headerIndex];
             return;
         }
 

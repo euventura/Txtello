@@ -47,9 +47,8 @@ class Line
         //@todo: precisa adicionar a validação aqui também.
         // o validador que precisa saber limpar o dado, assim como ele sabe  'sujar' o dado.
         $pointer = 0;
-        $this->data[] = 0;
         foreach ($this->config['map'] as $position => $map) {
-            $this->data[$map['name']] = trim(substr($this->textData, $position + $pointer, $map['size']));
+            $this->data[$map['name']] = trim(substr($this->textData, ($position-1) + $pointer, $map['size']));
             $pointer += $map['size'];
         }
     }
