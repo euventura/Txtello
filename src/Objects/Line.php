@@ -2,6 +2,9 @@
 
 namespace Uello\Txtello\Objects;
 
+use App\Errors\Error;
+use App\Errors\ErrorBag;
+
 class Line 
 {
     /**
@@ -32,15 +35,22 @@ class Line
      */
     private $errorBag;
 
+    protected int $line;
+
     /**
      * Construct
      *
      * @param Array $config
      */
-    public function __construct($config)
+    public function __construct($config, int $line, ErrorBag $errorBag = null)
     {
         $this->config = $config;
-        $this->errorBag = new ErrorBag();
+        $this->line = $line;
+        if ($errorBag == null) {
+            $errorBag = new ErrorBag();
+        }
+
+        $this->errorBag = $errorBag;
     }
 
     /**
@@ -119,7 +129,15 @@ class Line
                 $validator = new $infos[0]($infos[1]);
                 if (!$validator->validate($value))
                 {
-                    $this->errorBag->addError($validator->getError(),$map['name']);
+                    $error = new Error();
+                    $error->setMessage($validator->getError());
+                    $error->setLine($this->line);
+                    $error->setFieldName($map['name']);
+                    $error->setFieldValue($value);
+                    $error->setLineText($this->textData);
+                    $error->setConfig($map);
+                    $error->setHeader('');
+                    $this->errorBag->add($error);
                 }
 
                 if ($index == 0) {
