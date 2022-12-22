@@ -38,6 +38,8 @@ abstract class Driver implements DriverInterface
      */
     protected $errors = [];
 
+    protected $errorBag;
+
     /**
      * Constructor
      */
@@ -92,11 +94,11 @@ abstract class Driver implements DriverInterface
             }
             
             $line = new Line($this->config[$this->getHeader($lineContent)], $positionLine, $errorBag);
-            $this->errorBag = $line->getErrors();
+            $errorBag = $line->getErrors();
             $line->setText($lineContent);            
             $this->addItem($line->getData());
         }
-
+        $this->errorBag = $errorBag;
         return $this;
     }
 
