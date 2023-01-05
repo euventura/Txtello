@@ -11,7 +11,7 @@ class V31Test extends TestCase
    
  // @todo: Criar todos os testes.
  // teste que teste sucesso e falha.
-// algum teste que teste todas as validações de forma sucesso e falha
+ // algum teste que teste todas as validações de forma sucesso e falha
 
     public function testItShouldReadFileSuccess()
     {
@@ -19,7 +19,6 @@ class V31Test extends TestCase
         $expected = json_decode(file_get_contents(__DIR__ .'/../files/Notifis-v31-expected.json'), true);
         $v31 = new v31();
         $result = $v31->read($content);
-        $v31->getErrors();
         $this->assertEquals($expected, $result->getData());
     }
 }

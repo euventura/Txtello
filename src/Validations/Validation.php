@@ -9,7 +9,6 @@ class Validation implements ValidationInterface
 
 
     protected $extraFormat;
-    protected $isValid = true;
     protected $error;
     protected $padChar = ' ';
     protected $padDirection = STR_PAD_RIGHT;
@@ -32,17 +31,18 @@ class Validation implements ValidationInterface
      */
     public function validate($value) : bool
     {
-        return $this->isValid = true;
+        return true;
     }
 
     /**
-     * Return error
+     * Undocumented function
      *
+     * @param String $value
      * @return string
      */
-    public function getError() : string
+    public function getError($value) : string
     {
-        if (!$this->isValid) {
+        if (!$this->validate($value)) {
             return "Invalid Type: " . get_class($this);
         }
 
@@ -62,7 +62,7 @@ class Validation implements ValidationInterface
     }
 
     /**
-     * Remove Filler from DAta
+     * Remove Filler from Data
      *
      * @param $value
      * @return String

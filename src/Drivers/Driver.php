@@ -2,7 +2,7 @@
 
 namespace Uello\Txtello\Drivers;
 
-use App\Errors\ErrorBag;
+use Uello\Txtello\Errors\ErrorBag;
 use Uello\Txtello\Interfaces\DriverInterface;
 use Uello\Txtello\Objects\Line;
 
@@ -93,13 +93,21 @@ abstract class Driver implements DriverInterface
                 continue;
             }
             
-            $line = new Line($this->config[$this->getHeader($lineContent)], $positionLine, $errorBag);
+            $line = new Line($this->config[$this->getHeader($lineContent)], $positionLine, $errorBag, $header);
             $errorBag = $line->getErrors();
             $line->setText($lineContent);            
             $this->addItem($line->getData());
         }
         $this->errorBag = $errorBag;
         return $this;
+    }
+
+    /**
+     * get ErrorsBag Array
+     */
+    public function getErrorsBag()
+    {
+        return $this->errorBag;
     }
 
     /**

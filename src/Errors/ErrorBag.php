@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Errors;
+namespace Uello\Txtello\Errors;
 
 class ErrorBag
 {
@@ -9,7 +9,7 @@ class ErrorBag
 
     public function add(Error $error)
     {
-        $errors[$error->getLine()][$error->getFieldName()] = $error;
+        $this->errors[$error->getLine()][$error->getFieldName()] = $error;
     }
 
     public function merge(ErrorBag $toMergeErrorBag)

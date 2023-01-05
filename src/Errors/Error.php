@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Errors;
+namespace Uello\Txtello\Errors;
 
 class Error
 {
