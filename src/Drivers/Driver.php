@@ -2,6 +2,7 @@
 
 namespace Uello\Txtello\Drivers;
 
+use Uello\Txtello\Errors\ErrorBag;
 use Uello\Txtello\Interfaces\DriverInterface;
 use Uello\Txtello\Objects\Line;
 
@@ -36,6 +37,8 @@ abstract class Driver implements DriverInterface
      * Errors
      */
     protected $errors = [];
+
+    protected $errorBag;
 
     /**
      * Constructor
@@ -80,6 +83,8 @@ abstract class Driver implements DriverInterface
         $this->textData = $fileContent;
         $this->index = 0;
         $linesArray = explode("\r\n", $fileContent);
+        $errorBag = new ErrorBag();
+
         foreach ($linesArray as $positionLine => $lineContent) 
         {
             $header = $this->getHeader($lineContent);
@@ -88,17 +93,21 @@ abstract class Driver implements DriverInterface
                 continue;
             }
             
-            $line = new Line($this->config[$this->getHeader($lineContent)]);
-            $line->setText($lineContent);
-
-            if (!empty($line->getErrors())) {
-                $this->errors[$positionLine] = $line->getErrors();
-            }
-            
+            $line = new Line($this->config[$this->getHeader($lineContent)], $positionLine, $errorBag, $header);
+            $errorBag = $line->getErrors();
+            $line->setText($lineContent);            
             $this->addItem($line->getData());
         }
-
+        $this->errorBag = $errorBag;
         return $this;
+    }
+
+    /**
+     * get ErrorsBag Array
+     */
+    public function getErrorsBag()
+    {
+        return $this->errorBag;
     }
 
     /**

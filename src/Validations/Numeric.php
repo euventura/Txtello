@@ -11,7 +11,7 @@ class Numeric extends Validation
 
     public function validate($value) : bool
     {
-        return $this->isValid = is_numeric($value) || empty($value);
+        return (is_numeric($value) || empty($value));
     }
 
     public function clear($value) : String

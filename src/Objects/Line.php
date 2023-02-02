@@ -2,6 +2,9 @@
 
 namespace Uello\Txtello\Objects;
 
+use Uello\Txtello\Errors\Error;
+use Uello\Txtello\Errors\ErrorBag;
+
 class Line 
 {
     /**
@@ -32,15 +35,22 @@ class Line
      */
     private $errorBag;
 
+    protected int $line;
+
     /**
      * Construct
      *
      * @param Array $config
      */
-    public function __construct($config)
+    public function __construct($config, int $line, ErrorBag $errorBag = null, $header)
     {
         $this->config = $config;
-        $this->errorBag = new ErrorBag();
+        $this->line = $line;
+        if ($errorBag == null) {
+            $errorBag = new ErrorBag();
+        }
+        $this->header = $header;
+        $this->errorBag = $errorBag;
     }
 
     /**
@@ -78,11 +88,34 @@ class Line
     {
         $pointer = 0;
         foreach ($this->config['map'] as $position => $map) {
-            $this->data[$map['name']] = trim(substr($this->textData, ($position-1) + $pointer, $map['size']));
+            $rawFieldValue = substr($this->textData, ($position-1) + $pointer, $map['size']);
             $pointer += $map['size'] -1;
+            $validations = array_filter(explode('|', $map['format']));
+ 
+            foreach ($validations as $validation) {
+                $infos = (explode(':', $validation));
+                $infos[1] = $infos[1] ?? false;
+                $className = 'Uello\\Txtello\\Validations\\'. ucfirst($infos[0]);
+                $validator = new $className($infos[1]);
+                $rawFieldValue = $validator->clear($rawFieldValue);
+
+                if (!$validator->validate($rawFieldValue))
+                {
+                    $error = new Error();
+                    $error->setMessage($validator->getError($className));
+                    $error->setLine($this->line);
+                    $error->setFieldName($map['name']);
+                    $error->setFieldValue($rawFieldValue);
+                    $error->setLineText($this->textData);
+                    $error->setConfig($map);
+                    $error->setHeader($this->header);
+                    $this->errorBag->add($error);
+                }
+            }
+            $this->data[$map['name']] = $rawFieldValue;
         }
     }
-
+ 
     /**
      * Get the value of data
      */
@@ -119,7 +152,15 @@ class Line
                 $validator = new $infos[0]($infos[1]);
                 if (!$validator->validate($value))
                 {
-                    $this->errorBag->addError($validator->getError(),$map['name']);
+                    $error = new Error();
+                    $error->setMessage($validator->getError());
+                    $error->setLine($this->line);
+                    $error->setFieldName($map['name']);
+                    $error->setFieldValue($value);
+                    $error->setLineText($this->textData);
+                    $error->setConfig($map);
+                    $error->setHeader('');
+                    $this->errorBag->add($error);
                 }
 
                 if ($index == 0) {
