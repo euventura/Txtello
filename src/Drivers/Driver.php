@@ -2,66 +2,190 @@
 
 namespace Uello\Txtello\Drivers;
 
+use Uello\Txtello\Errors\ErrorBag;
 use Uello\Txtello\Interfaces\DriverInterface;
 use Uello\Txtello\Objects\Line;
 
 abstract class Driver implements DriverInterface
 {
 
-    var $config = '';
-    var $newEntityHeader = false;
-    var $reader;
-    var $data = [];
-    var $itemIndex = 0;
+    /**
+     * Readed Config File
+     */
+    protected $config;
+    /**
+     * Relative Path File Config
+     */
+    protected $configFile;
 
-    public function __construct($modification = false)
+    /**
+     * Relative Path File Config folder
+     */
+    protected $configFolder = '/src/Configs/';
+
+    /**
+     * ArrayData
+     */
+    protected $data = [];
+
+    /**
+     * TextData
+     */
+    protected $textData;
+
+    /**
+     * Errors
+     */
+    protected $errors = [];
+
+    protected $errorBag;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        $this->loadConfig($modification);
+        $this->loadConfig();
     }
 
-    protected function loadConfig($modification)
+    /**
+     * Set a different part of map Modification
+     *
+     * @param array $modificationArray
+     * @return void
+     */
+    public function setModification(array $modificationArray)
     {
-         if (!is_array($this->config)) {
-             $this->config = []; // carregar da pasta config, se tiver modificação
-             // a ideia é usar o esquema de HERANÇA, ou seja, você primeiro da um load no V31
-             // Ai você da um load no modification
-             // Varre o modification e subistitui os indices, fazendo uma mescla dos 2, onde o 
-             // v31 é a base, e a modificação altera a base
-             // $this->config = loadfile($this->config.$modification.'.php');
-         }
-    }
-
-    public function read($file) : array
-    {
-        $linesArray = explode("\r\n", $file);
-
-        foreach ($linesArray as $lineContent) 
+        foreach($modificationArray as $header => $modificationLine)
         {
-            $line = new Line($this->config[$this->getHeader($lineContent)]);
-            $line->setText($lineContent);
-            $this->addItem($line->getData()); // $line->getData() isso aqui deve retorna a linha em array
+            $this->config[$header] = $modificationLine;
         }
-
     }
 
-    protected function addItem($data)
+    /**
+     * Load config from file
+     *
+     * @return void
+     */
+    public function loadConfig()
     {
-        if ($this->newEntityHeader == $data['header'])
-        {
-            $this->index++;
-        }
-        $this->data['itens'][$this->index] = (array_merge($this->data['itens'][$this->index], $data));
-
+        $this->config = include (dirname(__FILE__, 3)) . $this->configFolder . $this->configFile;
     }
 
-    public function getHeader($line)
+    /**
+     * Read a TextData
+     *
+     * @param String $fileContent
+     * @return self
+     */
+    public function read(String $fileContent) : self
+    {
+        $this->textData = $fileContent;
+        $this->index = 0;
+        $linesArray = explode("\r\n", $fileContent);
+        $errorBag = new ErrorBag();
+
+        foreach ($linesArray as $positionLine => $lineContent) 
+        {
+            $header = $this->getHeader($lineContent);
+
+            if (!isset($this->config[$header])) {
+                continue;
+            }
+            
+            $line = new Line($this->config[$this->getHeader($lineContent)], $positionLine, $errorBag, $header);
+            $errorBag = $line->getErrors();
+            $line->setText($lineContent);            
+            $this->addItem($line->getData());
+        }
+        $this->errorBag = $errorBag;
+        return $this;
+    }
+
+    /**
+     * get ErrorsBag Array
+     */
+    public function getErrorsBag()
+    {
+        return $this->errorBag;
+    }
+
+    /**
+     * get ArrayData
+     *
+     * @return void
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Return a TextData
+     *
+     * @return void
+     */
+    public function getText()
+    {
+        return $this->textData;
+    }
+
+    /**
+     * Add item to ArrayData
+     *
+     * @param Array $data
+     * @return void
+     */
+    protected function addItem(Array $data)
+    {
+        $headerIndex = $data['identifier'];
+    
+        if (isset($this->data[$headerIndex])) {
+
+            if (!isset($this->data[$headerIndex][0])) {
+                $first = $this->data[$headerIndex];
+                $this->data[$headerIndex] = [];
+                $this->data[$headerIndex][] = $first;
+                $this->data[$headerIndex][] = $data;
+                return;
+            }
+
+            $this->data[$headerIndex][] = $this->data[$headerIndex];
+            return;
+        }
+        $this->data[$headerIndex] = $data;
+    }
+
+    /**
+     * Read Header fom a TextLine
+     *
+     * @param String $line
+     * @return void
+     */
+    public function getHeader(String $line)
     {
         return substr($line, 0, 3);
     }
 
-    public function write()
+    /**
+     * Read ArrayData and transform in TextData
+     *
+     * @param Array $data
+     * @return self
+     */
+    public function write(Array $data) : self
     {
+        $this->textData = '';
+        
+        foreach ($data as $arrayIndex => $lineData) 
+        {
+            $header = explode('.', $arrayIndex)[0];
+            $line = new Line($this->config[$header]);
+            $line->setData($lineData);
+            $this->textData .= $line->getText();
+        }
 
+        return $this;
     }
     
 }

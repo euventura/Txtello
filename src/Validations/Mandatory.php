@@ -7,8 +7,8 @@ use Uello\Txtello\Interfaces\ValidationInterface;
 class Mandatory extends Validation
 {
 
-    public function validate() : bool
+    public function validate($value) : bool
     {
-        return !empty($this->value);
+        return $this->isValid = !empty($value);
     }
 }

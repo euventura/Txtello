@@ -4,7 +4,7 @@ namespace Uello\Txtello\Validations;
 
 use Uello\Txtello\Interfaces\ValidationInterface;
 
-class Date extends Validation
+class DateTime extends Date
 {
 
     public function validate($value) : bool

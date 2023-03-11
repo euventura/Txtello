@@ -5,8 +5,9 @@ namespace Uello\Txtello\Interfaces;
 interface ValidationInterface
 {
 
-    public function __construct($value, $extraFormat = null);
-    public function validate() : bool;
-    public function getError() : array;
+    public function __construct($extraFormat = null);
+    public function validate($value) : bool;
+    public function getError($value) : string;
+    public function fill($value, $size) : String;
 
 }
