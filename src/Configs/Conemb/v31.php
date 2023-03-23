@@ -108,7 +108,7 @@ return [
             5 => [
                 'size' => 8,
                 'name' => 'emission_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             6 => [
                 'size' => 1,

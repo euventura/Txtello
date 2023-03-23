@@ -21,7 +21,7 @@ return [
             4 => [
                 'size' => 6,
                 'name' => 'date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             5 => [
                 'size' => 4,
@@ -99,7 +99,7 @@ return [
             8 => [
                 'size' => 8,
                 'name' => 'boarding_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             9 => [
                 'size' => 40,
@@ -237,7 +237,7 @@ return [
             10 => [
                 'size' => 8,
                 'name' => 'emission_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             11 => [
                 'size' => 15,

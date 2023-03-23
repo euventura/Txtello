@@ -98,7 +98,7 @@ return [
             6 => [
                 'size' => 8,
                 'name' => 'occurrence_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             7 => [
                 'size' => 4,
@@ -163,7 +163,7 @@ return [
             19 => [
                 'size' => 8,
                 'name' => 'arrival_date_invoice_destination',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             20 => [
                 'size' => 4,
@@ -173,7 +173,7 @@ return [
             21 => [
                 'size' => 8,
                 'name' => 'start_date_unloading_destination',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             22 => [
                 'size' => 4,
@@ -183,7 +183,7 @@ return [
             23 => [
                 'size' => 8,
                 'name' => 'end_date_unloading_destination',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             24 => [
                 'size' => 4,
@@ -193,7 +193,7 @@ return [
             25 => [
                 'size' => 8,
                 'name' => 'departure_date_invoice_destination',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             26 => [
                 'size' => 4,

@@ -103,12 +103,12 @@ return [
             3 => [
                 'size' => 8,
                 'name' => 'emission_date_pre_payment',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             4 => [
                 'size' => 8,
                 'name' => 'payment_date_pre_payment',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             5 => [
                 'size' => 4,
@@ -157,7 +157,7 @@ return [
             5 => [
                 'size' => 8,
                 'name' => 'shipper_document_emission_date',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             6 => [
                 'size' => 5,
@@ -172,7 +172,7 @@ return [
             8 => [
                 'size' => 8,
                 'name' => 'emission_date_knowledge',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             9 => [
                 'size' => 15,

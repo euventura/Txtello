@@ -21,7 +21,7 @@ return [
             4 => [
                 'size' => 6,
                 'name' => 'date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             5 => [
                 'size' => 4,
@@ -124,7 +124,7 @@ return [
             13 => [
                 'size' => 8,
                 'name' => 'date_shipment_goods',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             14 => [
                 'size' => 4,
@@ -400,7 +400,7 @@ return [
             4  => [
                 'size' => 8,
                 'name' => 'emission_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             5  => [
                 'size' => 15,
@@ -440,7 +440,7 @@ return [
             12  => [
                 'size' => 8,
                 'name' => 'date_shipment_goods',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             13  => [
                 'size' => 10,
@@ -520,7 +520,7 @@ return [
             28  => [
                 'size' => 8,
                 'name' => 'initial_delivery_date',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             29  => [
                 'size' => 4,
@@ -530,7 +530,7 @@ return [
             30  => [
                 'size' => 8,
                 'name' => 'final_delivery_date',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             31  => [
                 'size' => 4,
@@ -1020,7 +1020,7 @@ return [
             8 => [
                 'size' => 8,
                 'name' => 'expiration_date_item',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             9 => [
                 'size' => 50,

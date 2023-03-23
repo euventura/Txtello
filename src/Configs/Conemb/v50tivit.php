@@ -446,7 +446,7 @@ return [
             5 => [
                 'size' => 8,
                 'name' => 'invoice_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyy'
+                'format' => 'Mandatory|Date:dmY:dd/mm/yyy'
             ],
             6 => [
                 'size' => 15,

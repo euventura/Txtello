@@ -4,6 +4,7 @@ namespace Tests\Drivers\Ocorren;
 
 
 use PHPUnit\Framework\TestCase;
+use Uello\Txtello\Drivers\Driver;
 use Uello\Txtello\Drivers\Ocorren\v50tivit;
 
 class OcorrenV50tivitTest extends TestCase
@@ -13,8 +14,17 @@ class OcorrenV50tivitTest extends TestCase
         $path = dirname(__FILE__, 3);
         $content = file_get_contents($path. '/files/Ocorren/OcorrenV50tivitTest.txt');
         $expected = json_decode(file_get_contents($path.'/files/Ocorren/OcorrenV50tivitTest.json'), true);
-        $v31 = new v50tivit();
+        $v31 = new Driver('Ocorren/v50tivit');
         $result = $v31->read($content);
         $this->assertEquals($expected, $result->getData());
+    }
+
+    public function testItShouldReadFileError()
+    {
+        $path = dirname(__FILE__, 3);
+        $content = file_get_contents($path. '/files/Ocorren/OcorrenV50tivitTestDateError.txt');
+        $expected = json_decode(file_get_contents($path.'/files/Ocorren/OcorrenV50tivitTest.json'), true);
+        $v31 = new Driver('Ocorren/v50tivit');
+        $result = $v31->read($content);
     }
 }

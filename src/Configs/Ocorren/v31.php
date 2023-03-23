@@ -113,7 +113,7 @@ return [
             6 => [
                 'size' => 8,
                 'name' => 'occurrence_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             7 => [
                 'size' => 4,

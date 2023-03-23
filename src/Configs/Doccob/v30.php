@@ -113,12 +113,12 @@ return [
             6 => [
                 'size' => 8,
                 'name' => 'emission_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             7 => [
                 'size' => 8,
                 'name' => 'expiration_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             8 => [
                 'size' => 15,
@@ -143,7 +143,7 @@ return [
             12 => [
                 'size' => 8,
                 'name' => 'deadline_payment_discount',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             13 => [
                 'size' => 15,
@@ -217,7 +217,7 @@ return [
             6 => [
                 'size' => 8,
                 'name' => 'knowledge_emission_date',
-                'format' => 'DateTime:dd/mm/yyyy'
+                'format' => 'Date:dmY'
             ],
             7 => [
                 'size' => 14,
@@ -261,7 +261,7 @@ return [
             4 => [
                 'size' => 8,
                 'name' => 'invoice_emission_date',
-                'format' => 'Mandatory|DateTime:dd/mm/yyyy'
+                'format' => 'Mandatory|Date:dmY'
             ],
             5 => [
                 'size' => 7,

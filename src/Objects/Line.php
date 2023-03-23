@@ -2,55 +2,53 @@
 
 namespace Uello\Txtello\Objects;
 
-use Uello\Txtello\Errors\Error;
-use Uello\Txtello\Errors\ErrorBag;
+use Uello\Txtello\Errors\ValidationError;
 
 class Line 
 {
     /**
      * full config map
      *
-     * @var Array
+     * @var array
      */
-    private $config;
+    protected $config;
 
     /**
      * Text data
      *
-     * @var String
+     * @var string
      */
-    private $text;
+    protected $text;
 
     /**
      * Array data
      *
-     * @var Array
+     * @var array
      */
-    private $data;
+    protected $data;
 
+    protected $errors = [];
+
+    protected $line;
     /**
-     * ErrorBag
-     *
-     * @var [type]
+     * text data
+     * 
+     * @var string
      */
-    private $errorBag;
+    protected $textData;
 
-    protected int $line;
+    protected $header;
 
     /**
      * Construct
      *
-     * @param Array $config
+     * @param array $config
      */
-    public function __construct($config, int $line, ErrorBag $errorBag = null, $header)
+    public function __construct($config, int $line, $header)
     {
         $this->config = $config;
         $this->line = $line;
-        if ($errorBag == null) {
-            $errorBag = new ErrorBag();
-        }
         $this->header = $header;
-        $this->errorBag = $errorBag;
     }
 
     /**
@@ -84,13 +82,17 @@ class Line
      *
      * @return void
      */
-    private function transformTextInData()
+    protected function transformTextInData()
     {
         $pointer = 0;
         foreach ($this->config['map'] as $position => $map) {
             $rawFieldValue = substr($this->textData, ($position-1) + $pointer, $map['size']);
             $pointer += $map['size'] -1;
             $validations = array_filter(explode('|', $map['format']));
+
+            if (empty($validations)) {
+                $validations = ['validation'];
+            }
  
             foreach ($validations as $validation) {
                 $infos = (explode(':', $validation));
@@ -101,15 +103,17 @@ class Line
 
                 if (!$validator->validate($rawFieldValue))
                 {
-                    $error = new Error();
+                    print_r($rawFieldValue . '_');
+                    $error = new ValidationError();
                     $error->setMessage($validator->getError($className));
                     $error->setLine($this->line);
+                    $error->setPosition($position);
                     $error->setFieldName($map['name']);
                     $error->setFieldValue($rawFieldValue);
                     $error->setLineText($this->textData);
                     $error->setConfig($map);
                     $error->setHeader($this->header);
-                    $this->errorBag->add($error);
+                    $this->errors[] = $error->toArray();
                 }
             }
             $this->data[$map['name']] = $rawFieldValue;
@@ -140,7 +144,7 @@ class Line
      *
      * @return void
      */
-    private function transformDataInText()
+    protected function transformDataInText()
     {
         $this->text = '';
         foreach ($this->config as $position => $map) {
@@ -152,7 +156,7 @@ class Line
                 $validator = new $infos[0]($infos[1]);
                 if (!$validator->validate($value))
                 {
-                    $error = new Error();
+                    $error = new ValidationError();
                     $error->setMessage($validator->getError());
                     $error->setLine($this->line);
                     $error->setFieldName($map['name']);
@@ -160,7 +164,7 @@ class Line
                     $error->setLineText($this->textData);
                     $error->setConfig($map);
                     $error->setHeader('');
-                    $this->errorBag->add($error);
+                    $this->errors[] = $error;
                 }
 
                 if ($index == 0) {
@@ -173,12 +177,12 @@ class Line
     }
 
     /**
-     * return all errrors
+     * return all errors
      *
-     * @return void
+     * @return array
      */
     public function getErrors()
     {
-        return $this->errorBag;
+        return $this->errors;
     }
 }

@@ -12,7 +12,7 @@ class Txtello
      *
      * @var DriverInterface
      */
-    private $driver;
+    protected $driver;
 
     public function __construct(String $driver, Array $modifer = [])
     {
@@ -48,7 +48,7 @@ class Txtello
      * @param Array $modifier
      * @return void
      */
-    private function buildDriver(String $driver, Array $modifier)
+    protected function buildDriver(String $driver, Array $modifier)
     {
         $config = include dirname(__FILE__) . '/Configs/Drivers.php';
         $infos = explode('-', $driver);

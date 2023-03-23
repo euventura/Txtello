@@ -2,21 +2,19 @@
 
 namespace Uello\Txtello\Drivers;
 
-use Uello\Txtello\Errors\ErrorBag;
+
 use Uello\Txtello\Interfaces\DriverInterface;
 use Uello\Txtello\Objects\Line;
 
-abstract class Driver implements DriverInterface
+class Driver implements DriverInterface
 {
 
 
     protected $config;
 
-
     protected $configFile;
 
     protected $configFolder = '/src/Configs/';
-
 
     protected $data;
 
@@ -24,14 +22,14 @@ abstract class Driver implements DriverInterface
 
     protected $errors = [];
 
-    protected $errorBag;
+    protected $index;
 
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($config)
     {
-        $this->loadConfig();
+        $this->loadConfig($config);
     }
 
     /**
@@ -53,15 +51,15 @@ abstract class Driver implements DriverInterface
      *
      * @return void
      */
-    public function loadConfig()
+    public function loadConfig($config)
     {
-        $this->config = include (dirname(__FILE__, 3)) . $this->configFolder . $this->configFile;
+        $this->config = include (dirname(__FILE__, 3)) . $this->configFolder . $config . '.php';
     }
 
     /**
      * Read a TextData
      *
-     * @param String $fileContent
+     * @param string $fileContent
      * @return self
      */
     public function read(String $fileContent) : self
@@ -69,7 +67,6 @@ abstract class Driver implements DriverInterface
         $this->textData = $fileContent;
         $this->index = 0;
         $linesArray = explode("\r\n", $fileContent);
-        $errorBag = new ErrorBag();
 
         foreach ($linesArray as $positionLine => $lineContent) 
         {
@@ -79,27 +76,30 @@ abstract class Driver implements DriverInterface
                 continue;
             }
             
-            $line = new Line($this->config[$this->getHeader($lineContent)], $positionLine, $errorBag, $header);
-            $errorBag = $line->getErrors();
-            $line->setText($lineContent);            
+            $line = new Line($this->config[$this->getHeader($lineContent)], $positionLine, $header);
+            $line->setText($lineContent);
+            $this->addError($line->getErrors());       
             $this->addItem($line->getData());
         }
-        $this->errorBag = $errorBag;
+
         return $this;
     }
 
-    /**
-     * get ErrorsBag Array
-     */
-    public function getErrorsBag()
+    protected function addError($errors)
     {
-        return $this->errorBag;
+        if (!empty($errors)) {
+            print_r($errors); die;
+        }
+        foreach ($errors as $error) {
+            $this->errors[] = $error->toArray();
+        }
     }
 
+   
     /**
      * get ArrayData
      *
-     * @return void
+     * @return array|null
      */
     public function getData()
     {
@@ -109,7 +109,7 @@ abstract class Driver implements DriverInterface
     /**
      * Return a TextData
      *
-     * @return void
+     * @return string|null
      */
     public function getText()
     {
@@ -119,7 +119,7 @@ abstract class Driver implements DriverInterface
     /**
      * Add item to ArrayData
      *
-     * @param Array $data
+     * @param array $data
      * @return void
      */
     protected function addItem(Array $data)
@@ -127,7 +127,6 @@ abstract class Driver implements DriverInterface
         $headerIndex = $data['identifier'];
 
         if (isset($this->data[$headerIndex])) {
-
             
             if (!isset($this->data[$headerIndex][0])) {
                 $first = $this->data[$headerIndex];
@@ -146,33 +145,43 @@ abstract class Driver implements DriverInterface
     /**
      * Read Header fom a TextLine
      *
-     * @param String $line
-     * @return void
+     * @param string $line
+     * @return string|null
      */
-    public function getHeader(String $line)
+    public function getHeader(string $line)
     {
         return substr($line, 0, 3);
     }
 
     /**
-     * Read ArrayData and transform in TextData
+     * Read arrayData and transform in TextData
      *
-     * @param Array $data
+     * @param array $data
      * @return self
      */
-    public function write(Array $data) : self
+    public function write(array $data) : self
     {
         $this->textData = '';
-        
         foreach ($data as $arrayIndex => $lineData) 
         {
             $header = explode('.', $arrayIndex)[0];
-            $line = new Line($this->config[$header]);
+            $line = new Line($this->config[$header], $arrayIndex, $lineData['header']);
             $line->setData($lineData);
+            $this->addError($line->getErrors());
             $this->textData .= $line->getText();
         }
 
         return $this;
+    }
+
+    /**
+     * return array os errros
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
     
 }

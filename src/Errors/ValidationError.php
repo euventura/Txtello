@@ -2,7 +2,7 @@
 
 namespace Uello\Txtello\Errors;
 
-class Error
+class ValidationError
 {
 
     protected $line;
@@ -12,6 +12,7 @@ class Error
     protected $fieldValue;
     protected $header;
     protected $config;
+    protected $position;
 
     /**
      * Get the value of line
@@ -137,5 +138,43 @@ class Error
         $this->header = $header;
 
         return $this;
+    }
+
+    /**
+     * Get the value of posotion
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set the value of header
+     */
+    public function setPosition($position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function toArray()
+    {
+        return 
+            [
+                'line' => $this->line,
+                'lineText' => $this->lineText,
+                'message' => $this->message,
+                'fieldName' => $this->fieldName,
+                'fieldValue' => $this->fieldValue,
+                'header' => $this->header,
+                'config' => $this->config,
+                'position' => $this->position
+            ];
+    }
+
+    public function __toString()
+    {
+        return json_encode($this->toArray());
     }
 }
