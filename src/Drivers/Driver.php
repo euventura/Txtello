@@ -9,33 +9,19 @@ use Uello\Txtello\Objects\Line;
 abstract class Driver implements DriverInterface
 {
 
-    /**
-     * Readed Config File
-     */
+
     protected $config;
-    /**
-     * Relative Path File Config
-     */
+
+
     protected $configFile;
 
-    /**
-     * Relative Path File Config folder
-     */
     protected $configFolder = '/src/Configs/';
 
-    /**
-     * ArrayData
-     */
-    protected $data = [];
 
-    /**
-     * TextData
-     */
+    protected $data;
+
     protected $textData;
 
-    /**
-     * Errors
-     */
     protected $errors = [];
 
     protected $errorBag;
@@ -139,9 +125,10 @@ abstract class Driver implements DriverInterface
     protected function addItem(Array $data)
     {
         $headerIndex = $data['identifier'];
-    
+
         if (isset($this->data[$headerIndex])) {
 
+            
             if (!isset($this->data[$headerIndex][0])) {
                 $first = $this->data[$headerIndex];
                 $this->data[$headerIndex] = [];
@@ -150,7 +137,7 @@ abstract class Driver implements DriverInterface
                 return;
             }
 
-            $this->data[$headerIndex][] = $this->data[$headerIndex];
+            $this->data[$headerIndex][] = $data;
             return;
         }
         $this->data[$headerIndex] = $data;

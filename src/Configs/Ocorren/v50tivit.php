@@ -32,11 +32,6 @@ return [
                 'size' => 12,
                 'name' => 'exchange_identifier',
                 'format' => 'Mandatory'
-            ],
-            7 => [
-                'size' => 155,
-                'name' => 'filler',
-                'format' => ''
             ]
         ]
     ],
@@ -51,11 +46,6 @@ return [
                 'size' => 14,
                 'name' => 'document_identifier',
                 'format' => 'Mandatory'
-            ],
-            3 => [
-                'size' => 233,
-                'name' => 'filler',
-                'format' => ''
             ]
         ]
     ],
@@ -74,11 +64,6 @@ return [
             3 => [
                 'size' => 50,
                 'name' => 'shipping_company_social_reason',
-                'format' => ''
-            ],
-            4 => [
-                'size' => 183,
-                'name' => 'filler',
                 'format' => ''
             ]
         ]
@@ -229,11 +214,6 @@ return [
                 'size' => 9,
                 'name' => 'return_invoice_number',
                 'format' => ''
-            ],
-            30 => [
-                'size' => 12,
-                'name' => 'filler',
-                'format' => ''
             ]
         ]
     ],
@@ -257,11 +237,6 @@ return [
             4 => [
                 'size' => 70,
                 'name' => 'free_text_3',
-                'format' => ''
-            ],
-            5 => [
-                'size' => 37,
-                'name' => 'filler',
                 'format' => ''
             ]
         ]
@@ -292,11 +267,6 @@ return [
                 'size' => 50,
                 'name' => 'invoice_item_description',
                 'format' => 'Mandatory'
-            ],
-            6 => [
-                'size' => 161,
-                'name' => 'filler',
-                'format' => ''
             ]
         ]
     ],
@@ -331,11 +301,6 @@ return [
                 'size' => 12,
                 'name' => 'knowledge_number_originating_occurrence',
                 'format' => 'Mandatory'
-            ],
-            7 => [
-                'size' => 192,
-                'name' => 'filler',
-                'format' => ''
             ]
         ]
     ],
@@ -350,11 +315,6 @@ return [
                 'size' => 4,
                 'name' => 'occurrence_registration_number',
                 'format' => 'Mandatory'
-            ],
-            3 => [
-                'size' => 243,
-                'name' => 'filler',
-                'format' => ''
             ]
         ]
     ]
